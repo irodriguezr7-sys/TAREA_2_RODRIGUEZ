@@ -1,59 +1,37 @@
-# =====================================================================
-#  main.py  —  PROGRAMA PRINCIPAL (menú de opciones)
-# ---------------------------------------------------------------------
-#  Ejecutar desde la carpeta del proyecto:     python main.py
-#
-#  MENÚ PRINCIPAL
-#     1. Lista 1  (construida desde cero)   -> lista_manual.py
-#     2. Lista 2  (list de Python)          -> lista_python.py
-#     3. Listar ejercicios                  -> ejercicios.py
-#     4. Salir
-#
-#  Los dos submenús usan UNA sola función, menu_lista(lista, titulo)
-#  (reto opcional de polimorfismo): como las dos clases tienen los
-#  mismos métodos, el mismo menú funciona con cualquiera de las dos.
-#  menu_lista1() y menu_lista2() son solo envoltorios con su título.
-# =====================================================================
 from pasajero import Pasajero
 from lista_manual import ListaPasajerosManual
 from lista_python import ListaPasajerosPython
 from ejercicios import menu_ejercicios
 
-# Las dos listas viven durante todo el programa
 lista1 = ListaPasajerosManual(capacidad=10)
 lista2 = ListaPasajerosPython()
 
-
-# =========================== FUNCIONES DE APOYO ======================
+# ---- LEER_ENTERO ----
 def leer_entero(mensaje):
-    """Pide un número entero y repite hasta que sea válido."""
     while True:
         try:
             return int(input(mensaje))
         except ValueError:
             print("  Debe ser un número entero.")
 
-
+# ---- LEER_CEDULA ----
 def leer_cedula(mensaje="  Cédula (10 dígitos): "):
-    """Pide una cédula y repite hasta que tenga 10 dígitos."""
     while True:
         cedula = input(mensaje).strip()
         if cedula.isdigit() and len(cedula) == 10:
             return cedula
         print("  La cédula debe tener exactamente 10 dígitos numéricos.")
 
-
+# ---- LEER_EDAD ----
 def leer_edad(mensaje="  Edad: "):
-    """Pide una edad y repite hasta que sea un entero entre 0 y 120."""
     while True:
         edad = leer_entero(mensaje)
         if 0 <= edad <= 120:
             return edad
         print("  La edad debe estar entre 0 y 120.")
 
-
+# ---- LEER_PASAJERO ----
 def leer_pasajero():
-    """Pide los datos por teclado y retorna un objeto Pasajero."""
     nombre = input("  Nombre: ").strip()
     while nombre == "":
         print("  El nombre no puede estar vacío.")
@@ -62,28 +40,23 @@ def leer_pasajero():
     edad = leer_edad()
     return Pasajero(nombre, cedula, edad)
 
-
+# ---- CARGAR_DATOS_PRUEBA ----
 def cargar_datos_prueba(lista):
-    """Carga 5 pasajeros de prueba. Funciona con LAS DOS listas
-    porque ambas tienen el método añadir()."""
     lista.añadir(Pasajero("Diana", "0923456789", 22))
     lista.añadir(Pasajero("Ana",   "0912345678", 28))
     lista.añadir(Pasajero("Luis",  "0987654321", 35))
     lista.añadir(Pasajero("Beto",  "0934567890", 16))
     lista.añadir(Pasajero("Elena", "0901234567", 41))
-    print("  ✓ 5 pasajeros de prueba cargados")
+    print("  5 pasajeros de prueba cargados")
 
-
+# ---- PASAJERO_EN ----
 def pasajero_en(lista, pos):
-    """Retorna el pasajero de la posición pos en cualquiera de las dos
-    listas (la Lista 1 guarda en .datos y la Lista 2 en .pasajeros)."""
     if isinstance(lista, ListaPasajerosManual):
         return lista.datos[pos]
     return lista.pasajeros[pos]
 
-
+# ---- MOSTRAR_MENU_LISTA ----
 def mostrar_menu_lista(titulo):
-    """Mismo menú para las dos listas (mismas opciones)."""
     print(f"\n========== {titulo} ==========")
     print(" 1. Añadir pasajero (al final)")
     print(" 2. Listar pasajeros")
@@ -103,19 +76,16 @@ def mostrar_menu_lista(titulo):
     print(" C. Cargar datos de prueba")
     print(" 0. Volver")
 
-
-# ============================ SUBMENÚ GENÉRICO =======================
+# ---- MENU_LISTA ----
 def menu_lista(lista, titulo):
-    """Submenú que sirve para ListaPasajerosManual y ListaPasajerosPython.
-    Patrón de cada opción: LEER -> LLAMAR -> MOSTRAR."""
     while True:
         mostrar_menu_lista(titulo)
         op = input("Opción: ").strip().upper()
 
         if op == "1":
-            pasajero = leer_pasajero()              # 1. leer datos
-            if lista.añadir(pasajero):              # 2. llamar al método
-                print("  ✓ Pasajero añadido")       # 3. mostrar resultado
+            pasajero = leer_pasajero()
+            if lista.añadir(pasajero):
+                print("  Pasajero añadido")
 
         elif op == "2":
             lista.listar()
@@ -124,7 +94,7 @@ def menu_lista(lista, titulo):
             posicion = leer_entero("  Posición donde insertar: ")
             pasajero = leer_pasajero()
             if lista.insertar(posicion, pasajero):
-                print("  ✓ Insertado")
+                print("  Insertado")
 
         elif op == "4":
             cedula = leer_cedula()
@@ -151,18 +121,18 @@ def menu_lista(lista, titulo):
                 nombre = input("  Nuevo nombre: ").strip()
             edad = leer_edad("  Nueva edad: ")
             if lista.modificar(cedula, nombre, edad):
-                print("  ✓ Modificado")
+                print("  Modificado")
 
         elif op == "7":
             posicion = leer_entero("  Posición a eliminar: ")
             quitado = lista.eliminar_por_posicion(posicion)
             if quitado is not None:
-                print(f"  ✓ Eliminado: {quitado}")
+                print(f"  Eliminado: {quitado}")
 
         elif op == "8":
             cedula = leer_cedula()
             if lista.eliminar_por_valor(cedula):
-                print("  ✓ Eliminado")
+                print("  Eliminado")
 
         elif op == "9":
             lista.ordenar_asc()
@@ -178,11 +148,11 @@ def menu_lista(lista, titulo):
 
         elif op == "12":
             copia = lista.copiar()
-            copia.reversar()                # solo la copia cambia de orden
+            copia.reversar()
             print("--- COPIA (reversada) ---")
             copia.listar()
             print("--- ORIGINAL ---")
-            lista.listar()                  # el original NO cambió
+            lista.listar()
 
         elif op == "13":
             print(f"  Hay {lista.longitud()} pasajeros")
@@ -204,21 +174,20 @@ def menu_lista(lista, titulo):
         else:
             print("  Opción no válida")
 
-
+# ---- MENU_LISTA1 ----
 def menu_lista1():
     menu_lista(lista1, "LISTA 1 · desde cero")
 
-
+# ---- MENU_LISTA2 ----
 def menu_lista2():
     menu_lista(lista2, "LISTA 2 · list de Python")
 
-
-# ============================ MENÚ PRINCIPAL =========================
+# ---- MAIN ----
 def main():
     while True:
-        print("\n╔══════════════════════════════════╗")
-        print("║   TAREA LISTAS · PASAJEROS ✈     ║")
-        print("╚══════════════════════════════════╝")
+        print("\n==================================")
+        print("     TAREA LISTAS - PASAJEROS")
+        print("==================================")
         print("1. Lista 1 (construida desde cero)")
         print("2. Lista 2 (list de Python)")
         print("3. Listar ejercicios")
@@ -235,7 +204,6 @@ def main():
             break
         else:
             print("Opción no válida")
-
 
 if __name__ == "__main__":
     main()

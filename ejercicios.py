@@ -1,20 +1,9 @@
-# =====================================================================
-#  ejercicios.py  —  OPCIÓN 3 DEL MENÚ: "Listar ejercicios"
-# ---------------------------------------------------------------------
-#     • 3 ejercicios DESARROLLADOS (taller)  -> T1, T2, T3
-#     • 5 ejercicios PROPUESTOS              -> P1 ... P5
-#
-#  Cada ejercicio es UNA función sin parámetros que imprime su
-#  enunciado, usa datos fijos y muestra el resultado.
-#  ✋ = versión MANUAL (bucles)   🐍 = versión PYTHON (built-ins)
-# =====================================================================
 from lista_python import ListaPasajerosPython
 from pasajero import Pasajero
 
-
-# ============================ DESARROLLADOS ==========================
+# ======== DESARROLLADOS ========
+# ---- EJERCICIO_T1 ----
 def ejercicio_t1():
-    """T1 — CRUD de pasajeros con clase Pasajero + list."""
     print("T1 — CRUD de pasajeros con clase Pasajero + list")
     lista = ListaPasajerosPython()
 
@@ -35,11 +24,11 @@ def ejercicio_t1():
 
     print("\n4) Modificar 0912345678 -> Anita, 29 años")
     if lista.modificar("0912345678", "Anita", 29):
-        print("   ✓ Modificado")
+        print("   Modificado")
 
     print("\n5) Eliminar a Luis (cédula 0987654321)")
     if lista.eliminar_por_valor("0987654321"):
-        print("   ✓ Eliminado")
+        print("   Eliminado")
 
     print("\n6) Listar otra vez")
     lista.listar()
@@ -48,14 +37,12 @@ def ejercicio_t1():
     lista.pasajeros.sort(key=lambda p: p.nombre)
     lista.listar()
 
-
+# ---- EJERCICIO_T2 ----
 def ejercicio_t2():
-    """T2 — Estadísticas de una lista de notas."""
     print("T2 — Estadísticas de una lista de notas")
     nombres = ["Ana", "Luis", "Diana", "Beto", "Elena"]
     notas = [8, 6, 10, 7, 5]
 
-    # ✋ MANUAL: un solo for con acumulador, campeón y contador
     suma = 0
     maxima = notas[0]
     minima = notas[0]
@@ -71,25 +58,22 @@ def ejercicio_t2():
         if notas[i] >= 7:
             aprobados = aprobados + 1
     promedio = suma / len(notas)
-    print(f"✋ Promedio {promedio:.2f} · Máx {maxima} ({mejor}) · "
+    print(f"Manual: Promedio {promedio:.2f} · Máx {maxima} ({mejor}) · "
           f"Mín {minima} · Aprobados {aprobados} de {len(notas)}")
 
-    # 🐍 PYTHON: sum, max, min, len, index y comprensión
     promedio = sum(notas) / len(notas)
     maxima = max(notas)
     minima = min(notas)
     mejor = nombres[notas.index(maxima)]
     aprobados = len([n for n in notas if n >= 7])
-    print(f"🐍 Promedio {promedio:.2f} · Máx {maxima} ({mejor}) · "
+    print(f"Python: Promedio {promedio:.2f} · Máx {maxima} ({mejor}) · "
           f"Mín {minima} · Aprobados {aprobados} de {len(notas)}")
 
-
+# ---- EJERCICIO_T3 ----
 def ejercicio_t3():
-    """T3 — Ordenar una lista (bubble sort)."""
     print("T3 — Ordenar una lista (bubble sort)")
     datos = [5, 2, 8, 1, 9, 3, 7]
 
-    # ✋ MANUAL: burbuja con bandera hubo_swap sobre una COPIA
     lista = datos[:]
     n = len(lista)
     for vuelta in range(n - 1):
@@ -100,87 +84,68 @@ def ejercicio_t3():
                 lista[i] = lista[i + 1]
                 lista[i + 1] = aux
                 hubo_swap = True
-        if not hubo_swap:          # ya estaba ordenada: corto antes
+        if not hubo_swap:
             break
-    print(f"✋ Burbuja:            {lista}")
+    print(f"Manual: Burbuja: {lista}")
 
-    # 🐍 PYTHON
-    print(f"🐍 sorted(lista):      {sorted(datos)}")
+    print(f"Python: sorted(lista): {sorted(datos)}")
     desc = datos[:]
     desc.sort(reverse=True)
-    print(f"🐍 sort(reverse=True): {desc}")
+    print(f"Python: sort(reverse=True): {desc}")
 
-    # Extra: ordenar palabras por longitud con key=len
     palabras = ["python", "a", "código", "el"]
-    print(f"Extra (key=len):       {sorted(palabras, key=len)}")
+    print(f"Extra (key=len): {sorted(palabras, key=len)}")
 
-
-# ============================= PROPUESTOS ============================
+# ======== PROPUESTOS ========
+# ---- EJERCICIO_P1 ----
 def ejercicio_p1():
-    """P1 — Contar apariciones de un valor."""
     print("P1 — Contar apariciones de un valor")
     lista = [1, 3, 2, 3, 4, 3, 5]
     v = 3
 
-    # ✋ MANUAL: patrón contador
     contador = 0
     for x in lista:
         if x == v:
             contador = contador + 1
-    print(f"✋ {v} aparece {contador} veces")
+    print(f"Manual: {v} aparece {contador} veces")
 
-    # 🐍 PYTHON: count()
-    print(f"🐍 {v} aparece {lista.count(v)} veces")
+    print(f"Python: {v} aparece {lista.count(v)} veces")
 
-    # 🧩 COMPRENSIÓN
-    print(f"🧩 {v} aparece {len([x for x in lista if x == v])} veces")
+    print(f"Comprension: {v} aparece {len([x for x in lista if x == v])} veces")
 
-
+# ---- EJERCICIO_P2 ----
 def ejercicio_p2():
-    """P2 — Invertir una lista SIN lista.reverse()."""
     print("P2 — Invertir una lista")
     lista = [1, 2, 3, 4, 5]
 
-    # ✋ MANUAL: recorrer al revés
     invertida = []
     for i in range(len(lista) - 1, -1, -1):
         invertida.append(lista[i])
-    print(f"✋ {invertida}")
+    print(f"Manual: {invertida}")
 
-    # 🐍 PYTHON: slicing y reversed
-    print(f"🐍 {lista[::-1]}")
-    print(f"🐍 {list(reversed(lista))}")
+    print(f"Python: {lista[::-1]}")
+    print(f"Python: {list(reversed(lista))}")
 
-    # 🧩 COMPRENSIÓN
-    print(f"🧩 {[lista[i] for i in range(len(lista) - 1, -1, -1)]}")
+    print(f"Comprension: {[lista[i] for i in range(len(lista) - 1, -1, -1)]}")
 
-
+# ---- EJERCICIO_P3 ----
 def ejercicio_p3():
-    """P3 — Números únicos manteniendo el orden."""
     print("P3 — Números únicos")
     nums = [1, 3, 2, 3, 4, 1, 5, 2]
 
-    # ✋ MANUAL: añadir solo si todavía no está
     unicos = []
     for x in nums:
         if x not in unicos:
             unicos.append(x)
-    print(f"✋ {unicos}")
+    print(f"Manual: {unicos}")
 
-    # 🐍 PYTHON: dict.fromkeys conserva el orden de inserción
-    print(f"🐍 {list(dict.fromkeys(nums))}")
+    print(f"Python: {list(dict.fromkeys(nums))}")
 
-    # list(set(nums)) NO garantiza el orden: un set no guarda el orden
-    # de inserción (organiza los elementos según su valor hash), por eso
-    # el resultado puede salir en un orden distinto al original.
-
-
+# ---- EJERCICIO_P4 ----
 def ejercicio_p4():
-    """P4 — Segundo mayor (sin ordenar toda la lista)."""
     print("P4 — Segundo mayor")
     nums = [5, 2, 9, 7, 9, 3, 8]
 
-    # ✋ MANUAL: dos campeones en un solo recorrido
     mayor = nums[0]
     segundo = None
     for x in nums:
@@ -189,19 +154,16 @@ def ejercicio_p4():
             mayor = x
         elif x != mayor and (segundo is None or x > segundo):
             segundo = x
-    print(f"✋ Mayor {mayor} · Segundo {segundo}")
+    print(f"Manual: Mayor {mayor} · Segundo {segundo}")
 
-    # 🐍 PYTHON (para comprobar)
-    print(f"🐍 Mayor {max(nums)} · Segundo {sorted(set(nums))[-2]}")
+    print(f"Python: Mayor {max(nums)} · Segundo {sorted(set(nums))[-2]}")
 
-
+# ---- EJERCICIO_P5 ----
 def ejercicio_p5():
-    """P5 — Fusionar dos listas ordenadas (sin sort)."""
     print("P5 — Fusionar dos listas ordenadas")
     a = [1, 3, 5, 7]
     b = [2, 4, 6, 8, 10]
 
-    # ✋ MANUAL: dos índices comparando cabezas (base del merge sort)
     resultado = []
     i = 0
     j = 0
@@ -212,16 +174,13 @@ def ejercicio_p5():
         else:
             resultado.append(b[j])
             j = j + 1
-    resultado.extend(a[i:])      # lo que sobre de a
-    resultado.extend(b[j:])      # lo que sobre de b
-    print(f"✋ {resultado}")
+    resultado.extend(a[i:])
+    resultado.extend(b[j:])
+    print(f"Manual: {resultado}")
 
-    # 🐍 PYTHON (para comprobar)
-    print(f"🐍 {sorted(a + b)}")
+    print(f"Python: {sorted(a + b)}")
 
-
-# ============================== CATÁLOGO =============================
-#  (código, título, tipo, función)   ->  tipo: "taller" o "propuesto"
+# ======== CATALOGO ========
 EJERCICIOS = [
     ("T1", "CRUD de pasajeros con clase Pasajero + list", "taller", ejercicio_t1),
     ("T2", "Estadísticas de una lista de notas",          "taller", ejercicio_t2),
@@ -233,16 +192,12 @@ EJERCICIOS = [
     ("P5", "Fusionar dos listas ordenadas",               "propuesto", ejercicio_p5),
 ]
 
-
+# ---- MENU_EJERCICIOS ----
 def menu_ejercicios():
-    """Muestra los ejercicios agrupados y ejecuta el que elija el usuario
-    hasta que escriba 0."""
-    # 1. Separar el catálogo con COMPRENSIONES
     taller = [e for e in EJERCICIOS if e[2] == "taller"]
     propuestos = [e for e in EJERCICIOS if e[2] == "propuesto"]
 
     while True:
-        # 2. Mostrar los dos grupos
         print("\n--- DESARROLLADOS (taller) ---")
         for e in taller:
             print(f"  {e[0]}. {e[1]}")
@@ -251,15 +206,12 @@ def menu_ejercicios():
             print(f"  {e[0]}. {e[1]}")
         print("  0.  Volver")
 
-        # 3. Leer el código en mayúsculas
         codigo = input("Código: ").strip().upper()
         if codigo == "0":
             break
 
-        # 4. Buscar la tupla con otra COMPRENSIÓN
         encontrados = [e for e in EJERCICIOS if e[0] == codigo]
 
-        # 5. Ejecutar o avisar
         if encontrados:
             print()
             encontrados[0][3]()
